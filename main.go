@@ -1,16 +1,23 @@
 package main
 
 import (
+	"context"
+
 	"github.com/lxn/walk"
 	d "github.com/lxn/walk/declarative"
 )
 
 func main() {
+	ctx := context.Background()
 	var mw *walk.MainWindow
 	var tv *walk.TableView
 	var q *walk.LineEdit
 
-	fileModel := NewFileInfoModel()
+	agent, err := NewNTFSAgent(ctx, "c:\\")
+	if err != nil {
+		return
+	}
+	fileModel := NewFileInfoModel(agent)
 
 	d.MainWindow{
 		AssignTo: &mw,
